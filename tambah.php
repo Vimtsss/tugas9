@@ -1,65 +1,54 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-require_once 'koneksi.php';
+include 'koneksi.php';
 
-$error = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nama  = trim($_POST['nama_barang'] ?? '');
-    $stock = intval($_POST['stock'] ?? 0);
-    $harga = intval($_POST['harga'] ?? 0);
+if (isset($_POST['simpan'])) {
+    $nama_barang = $_POST['nama_barang'];
+    $stock = $_POST['stock'];
+    $harga = $_POST['harga'];
 
-    if ($nama === '' || $stock < 0 || $harga < 0) {
-        $error = "Isi semua field dengan benar.";
+    $query = "INSERT INTO barang (nama_barang, stock, harga) VALUES (?, ?, ?)";
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, "sii", $nama_barang, $stock, $harga);
+
+    if (mysqli_stmt_execute($stmt)) {
+        header("Location: index.php");
+        exit;
     } else {
-        $stmt = mysqli_prepare($conn, "INSERT INTO barang (nama_barang, stock, harga) VALUES (?, ?, ?)");
-        mysqli_stmt_bind_param($stmt, "sii", $nama, $stock, $harga);
-        if (mysqli_stmt_execute($stmt)) {
-            mysqli_stmt_close($stmt);
-            header("Location: index.php");
-            exit;
-        } else {
-            $error = "Gagal menyimpan: " . mysqli_error($conn);
-        }
+        echo "Gagal menambah data: " . mysqli_error($conn);
     }
 }
 ?>
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Tambah Barang</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900 min-h-screen text-white flex items-center justify-center">
+<body class="bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900 min-h-screen flex items-center justify-center text-white">
+
   <div class="bg-gray-800 p-8 rounded-2xl shadow-xl w-full max-w-md">
-    <h2 class="text-2xl font-bold mb-4 text-indigo-300">Tambah Barang</h2>
-
-    <?php if ($error): ?>
-      <div class="bg-red-600 text-white p-3 rounded mb-4"><?php echo htmlspecialchars($error); ?></div>
-    <?php endif; ?>
-
-    <form method="post" class="space-y-4">
+    <h1 class="text-3xl font-bold text-center text-indigo-300 mb-6">Tambah Barang</h1>
+    
+    <form method="post" class="space-y-5">
       <div>
-        <label class="block mb-1 text-sm text-gray-300">Nama Barang</label>
-        <input type="text" name="nama_barang" required class="w-full px-3 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500" value="<?php echo isset($_POST['nama_barang'])?htmlspecialchars($_POST['nama_barang']):''; ?>">
+        <label class="block mb-2 font-medium">Nama Barang</label>
+        <input type="text" name="nama_barang" required class="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:ring-2 focus:ring-indigo-400 focus:outline-none">
       </div>
-
       <div>
-        <label class="block mb-1 text-sm text-gray-300">Stock</label>
-        <input type="number" name="stock" min="0" required class="w-full px-3 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500" value="<?php echo isset($_POST['stock'])?htmlspecialchars($_POST['stock']):'0'; ?>">
+        <label class="block mb-2 font-medium">Stock</label>
+        <input type="number" name="stock" required class="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:ring-2 focus:ring-indigo-400 focus:outline-none">
       </div>
-
       <div>
-        <label class="block mb-1 text-sm text-gray-300">Harga</label>
-        <input type="number" name="harga" min="0" required class="w-full px-3 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500" value="<?php echo isset($_POST['harga'])?htmlspecialchars($_POST['harga']):'0'; ?>">
+        <label class="block mb-2 font-medium">Harga</label>
+        <input type="number" name="harga" required class="w-full px-4 py-2 rounded-lg bg-gray-700 border border-gray-600 focus:ring-2 focus:ring-indigo-400 focus:outline-none">
       </div>
-
-      <div class="flex justify-between items-center">
-        <a href="index.php" class="text-sm text-gray-300 hover:underline">Kembali</a>
-        <button type="submit" class="bg-gradient-to-r from-indigo-500 to-purple-600 px-4 py-2 rounded-lg font-semibold">Simpan</button>
+      <div class="flex justify-between">
+        <a href="index.php" class="px-4 py-2 bg-gray-600 hover:bg-gray-700 rounded-lg">Kembali</a>
+        <button type="submit" name="simpan" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg">Simpan</button>
       </div>
     </form>
   </div>
+
 </body>
 </html>
