@@ -1,4 +1,9 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+?>
+
+<?php
 include 'koneksi.php';
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $nama = $_POST['nama_barang'];

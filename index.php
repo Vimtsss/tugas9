@@ -1,4 +1,9 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+?>
+
+<?php
 include 'koneksi.php';
 $result = mysqli_query($conn, "SELECT * FROM barang");
 ?>
