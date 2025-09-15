@@ -1,20 +1,21 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 require_once 'koneksi.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nama  = $_POST['nama_barang'];
-    $stock = (int)$_POST['stock'];
-    $harga = (int)$_POST['harga'];
+    $stock = $_POST['stock'];
+    $harga = $_POST['harga'];
 
-    $sql = "INSERT INTO barang (nama_barang, stock, harga) VALUES (?, ?, ?)";
-    $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "sii", $nama, $stock, $harga);
+    $sql = "INSERT INTO barang (nama_barang, stock, harga) VALUES ('$nama', '$stock', '$harga')";
+    $result = mysqli_query($conn, $sql);
 
-    if (mysqli_stmt_execute($stmt)) {
+    if ($result) {
         header("Location: index.php");
         exit;
     } else {
-        echo "Error: " . mysqli_error($conn);
+        echo "Query Error: " . mysqli_error($conn);
     }
 }
 ?>
