@@ -2,11 +2,9 @@
 require_once 'koneksi.php';
 
 $id = $_GET['id'];
-$sql = "DELETE FROM barang WHERE id_barang=?";
-$stmt = mysqli_prepare($conn, $sql);
-mysqli_stmt_bind_param($stmt, "i", $id);
+$sql = "DELETE FROM barang WHERE id_barang=$id";
 
-if (mysqli_stmt_execute($stmt)) {
+if (mysqli_query($conn, $sql)) {
     header("Location: index.php");
     exit;
 } else {
