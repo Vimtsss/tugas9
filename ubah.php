@@ -7,12 +7,12 @@ $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($result);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id_baru = $_POST['id_barang']; // ID yang diubah
+    $id_baru = $_POST['id_barang'];
     $nama    = $_POST['nama_barang'];
     $stok    = $_POST['stok'];
     $harga   = $_POST['harga'];
 
-    // Update termasuk id_barang
+
     $update = "UPDATE barang 
                SET id_barang='$id_baru', nama_barang='$nama', stok='$stok', harga='$harga' 
                WHERE id_barang=$id";
