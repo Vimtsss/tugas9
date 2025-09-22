@@ -21,7 +21,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $terjual  = $_POST['terjual'];
 
     // Hitung subtotal otomatis
-    $subtotal = ($stok - $terjual) * $harga;
+    $subtotal = $terjual * $harga;
+
 
     $sql = "UPDATE barang SET 
                 id_barang='$id_baru',
