@@ -54,4 +54,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <input type="text" name="id_barang" value="<?php echo $row['id_barang']; ?>" required class="mt-1 w-full p-2 rounded bg-gray-700">
     </label>
 
-    <label class="block mb-3">Na
+    <label class="block mb-3">Nama Barang
+      <input type="text" name="nama_barang" value="<?php echo $row['nama_barang']; ?>" required class="mt-1 w-full p-2 rounded bg-gray-700">
+    </label>
+
+    <label class="block mb-3">Stok
+      <input type="number" name="stok" value="<?php echo $row['stok']; ?>" required class="mt-1 w-full p-2 rounded bg-gray-700">
+    </label>
+
+    <label class="block mb-3">Harga
+      <input type="number" name="harga" value="<?php echo $row['harga']; ?>" required class="mt-1 w-full p-2 rounded bg-gray-700">
+    </label>
+
+    <label class="block mb-5">Terjual
+      <input type="number" name="terjual" value="<?php echo $row['terjual']; ?>" required class="mt-1 w-full p-2 rounded bg-gray-700">
+    </label>
+
+    <div class="flex justify-between">
+      <a href="index.php" class="text-gray-400 hover:text-white">Kembali</a>
+      <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded">Simpan</button>
+    </div>
+  </form>
+</body>
+</html>
