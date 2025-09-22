@@ -4,23 +4,24 @@ ini_set('display_errors', 1);
 require_once 'koneksi.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nama    = $_POST['nama_barang'];
-    $stok    = $_POST['stok'];
-    $harga   = $_POST['harga'];
-    $terjual = $_POST['terjual'];
+    $id_baru  = $_POST['id_barang'];
+    $nama     = $_POST['nama_barang'];
+    $stok     = $_POST['stok'];
+    $harga    = $_POST['harga'];
+    $terjual  = $_POST['terjual'];
 
-    // hitung subtotal
-    $subtotal = ($stok - $terjual) * $harga;
+    // hitung stok baru & subtotal
+    $stok_akhir = $stok - $terjual;  // stok berkurang
+    $subtotal   = $terjual * $harga; // total pemasukan
 
-    $sql = "INSERT INTO barang (nama_barang, stok, harga, terjual, subtotal) 
-            VALUES ('$nama', '$stok', '$harga', '$terjual', '$subtotal')";
-    $result = mysqli_query($conn, $sql);
+    $sql = "INSERT INTO barang (id_barang, nama_barang, stok, harga, terjual, subtotal)
+            VALUES ('$id_baru', '$nama', '$stok_akhir', '$harga', '$terjual', '$subtotal')";
 
-    if ($result) {
+    if (mysqli_query($conn, $sql)) {
         header("Location: index.php");
         exit;
     } else {
-        echo "Query Error: " . mysqli_error($conn);
+        echo "Error: " . mysqli_error($conn);
     }
 }
 ?>
