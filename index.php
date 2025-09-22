@@ -3,13 +3,17 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 require_once 'koneksi.php';
 
+// ambil data
 $sql = "SELECT * FROM barang ORDER BY id_barang DESC";
 $result = mysqli_query($conn, $sql);
+if ($result === false) {
+    die("Query error: " . mysqli_error($conn));
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Daftar Barang</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -32,6 +36,8 @@ $result = mysqli_query($conn, $sql);
             <th class="py-3 px-4">Nama Barang</th>
             <th class="py-3 px-4">Stok</th>
             <th class="py-3 px-4">Harga</th>
+            <th class="py-3 px-4">Terjual</th>
+            <th class="py-3 px-4">Subtotal</th>
             <th class="py-3 px-4 text-center">Aksi</th>
           </tr>
         </thead>
@@ -39,19 +45,21 @@ $result = mysqli_query($conn, $sql);
           <?php if (mysqli_num_rows($result) > 0): ?>
             <?php while ($row = mysqli_fetch_assoc($result)): ?>
               <tr class="hover:bg-gray-700 transition">
-                <td class="py-3 px-4 font-medium text-gray-200"><?php echo $row['id_barang']; ?></td>
-                <td class="py-3 px-4"><?php echo htmlspecialchars($row['nama_barang']); ?></td>
-                <td class="py-3 px-4"><?php echo (int)$row['stok']; ?></td>
-                <td class="py-3 px-4">Rp <?php echo number_format((int)$row['harga'],0,',','.'); ?></td>
+                <td class="py-3 px-4 font-medium text-gray-200"><?= $row['id_barang']; ?></td>
+                <td class="py-3 px-4"><?= htmlspecialchars($row['nama_barang']); ?></td>
+                <td class="py-3 px-4"><?= (int)$row['stok']; ?></td>
+                <td class="py-3 px-4">Rp <?= number_format((int)$row['harga'],0,',','.'); ?></td>
+                <td class="py-3 px-4"><?= (int)$row['terjual']; ?></td>
+                <td class="py-3 px-4">Rp <?= number_format((int)$row['subtotal'],0,',','.'); ?></td>
                 <td class="py-3 px-4 text-center space-x-2">
-                  <a href="ubah.php?id=<?php echo $row['id_barang']; ?>" class="inline-block bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded-lg text-sm">Ubah</a>
-                  <a href="hapus.php?id=<?php echo $row['id_barang']; ?>" onclick="return confirm('Yakin ingin hapus?')" class="inline-block bg-red-500 hover:bg-red-600 px-3 py-1 rounded-lg text-sm">Hapus</a>
+                  <a href="ubah.php?id=<?= $row['id_barang']; ?>" class="inline-block bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded-lg text-sm">Ubah</a>
+                  <a href="hapus.php?id=<?= $row['id_barang']; ?>" onclick="return confirm('Yakin ingin hapus?')" class="inline-block bg-red-500 hover:bg-red-600 px-3 py-1 rounded-lg text-sm">Hapus</a>
                 </td>
               </tr>
             <?php endwhile; ?>
           <?php else: ?>
             <tr>
-              <td colspan="5" class="py-6 px-4 text-center text-gray-400">Belum ada data.</td>
+              <td colspan="7" class="py-6 px-4 text-center text-gray-400">Belum ada data.</td>
             </tr>
           <?php endif; ?>
         </tbody>

@@ -4,11 +4,16 @@ ini_set('display_errors', 1);
 require_once 'koneksi.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nama = $_POST['nama_barang'];
-    $stok = $_POST['stok'];
-    $harga = $_POST['harga'];
+    $nama    = $_POST['nama_barang'];
+    $stok    = $_POST['stok'];
+    $harga   = $_POST['harga'];
+    $terjual = $_POST['terjual'];
 
-    $sql = "INSERT INTO barang (nama_barang, stok, harga) VALUES ('$nama', '$stok', '$harga')";
+    // hitung subtotal
+    $subtotal = ($stok - $terjual) * $harga;
+
+    $sql = "INSERT INTO barang (nama_barang, stok, harga, terjual, subtotal) 
+            VALUES ('$nama', '$stok', '$harga', '$terjual', '$subtotal')";
     $result = mysqli_query($conn, $sql);
 
     if ($result) {
@@ -35,8 +40,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <label class="block mb-3">Stok
       <input type="number" name="stok" required class="mt-1 w-full p-2 rounded bg-gray-700">
     </label>
-    <label class="block mb-5">Harga
+    <label class="block mb-3">Harga
       <input type="number" name="harga" required class="mt-1 w-full p-2 rounded bg-gray-700">
+    </label>
+    <label class="block mb-5">Terjual
+      <input type="number" name="terjual" required class="mt-1 w-full p-2 rounded bg-gray-700">
     </label>
     <div class="flex justify-between">
       <a href="index.php" class="text-gray-400 hover:text-white">Kembali</a>
