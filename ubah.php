@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $harga    = $_POST['harga'];
     $terjual  = $_POST['terjual'];
 
-    // hitung stok baru & subtotal
+  
     $stok_akhir = $stok - $terjual;
     $subtotal   = $terjual * $harga;
 
