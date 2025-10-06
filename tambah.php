@@ -24,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "Error: " . mysqli_error($conn);
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="id">
