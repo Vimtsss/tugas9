@@ -4,18 +4,17 @@ ini_set('display_errors', 1);
 require_once 'koneksi.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id_baru  = $_POST['id_barang'];
     $nama     = $_POST['nama_barang'];
-    $stok     = $_POST['stok'];
+    $stock    = $_POST['stock'];  // ubah dari stok → stock
     $harga    = $_POST['harga'];
     $terjual  = $_POST['terjual'];
 
-    // hitung stok baru & subtotal
-    $stok_akhir = $stok - $terjual;  // stok berkurang
-    $subtotal   = $terjual * $harga; // total pemasukan
+    // hitung stock akhir & subtotal
+    $stock_akhir = $stock - $terjual;   // stock berkurang setelah terjual
+    $subtotal    = $terjual * $harga;   // total pemasukan
 
-    $sql = "INSERT INTO barang (id_barang, nama_barang, stok, harga, terjual, subtotal)
-            VALUES ('$id_baru', '$nama', '$stok_akhir', '$harga', '$terjual', '$subtotal')";
+    $sql = "INSERT INTO barang (nama_barang, stock, harga, terjual, subtotal)
+            VALUES ('$nama', '$stock_akhir', '$harga', '$terjual', '$subtotal')";
 
     if (mysqli_query($conn, $sql)) {
         header("Location: index.php");
@@ -24,7 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "Error: " . mysqli_error($conn);
     }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -39,8 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <label class="block mb-3">Nama Barang
       <input type="text" name="nama_barang" required class="mt-1 w-full p-2 rounded bg-gray-700">
     </label>
-    <label class="block mb-3">Stok
-      <input type="number" name="stok" required class="mt-1 w-full p-2 rounded bg-gray-700">
+    <label class="block mb-3">Stock
+      <input type="number" name="stock" required class="mt-1 w-full p-2 rounded bg-gray-700">
     </label>
     <label class="block mb-3">Harga
       <input type="number" name="harga" required class="mt-1 w-full p-2 rounded bg-gray-700">

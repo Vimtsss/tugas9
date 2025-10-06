@@ -16,16 +16,17 @@ if (!$row) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id       = $_POST['id_barang'];
     $nama     = $_POST['nama_barang'];
-    $stok     = $_POST['stok'];
+    $stock    = $_POST['stock'];
     $harga    = $_POST['harga'];
     $terjual  = $_POST['terjual'];
 
-  
-    $stok_akhir = $stok - $terjual;
-    $subtotal   = $terjual * $harga;
+    // hitung stock baru dan subtotal
+    $stock_akhir = $stock - $terjual;
+    $subtotal    = $terjual * $harga;
 
+    // query update ke database
     $sql = "UPDATE barang 
-            SET nama_barang='$nama', stok='$stok_akhir', harga='$harga', 
+            SET nama_barang='$nama', stock='$stock_akhir', harga='$harga', 
                 terjual='$terjual', subtotal='$subtotal'
             WHERE id_barang='$id'";
 
@@ -36,7 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "Error: " . mysqli_error($conn);
     }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -50,23 +50,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <h1 class="text-2xl font-bold mb-6 text-indigo-400">Ubah Barang</h1>
 
     <label class="block mb-3">ID Barang
-      <input type="text" name="id_barang" value="<?php echo $row['id_barang']; ?>" required class="mt-1 w-full p-2 rounded bg-gray-700">
+      <input type="text" name="id_barang" value="<?= $row['id_barang'] ?>" readonly class="mt-1 w-full p-2 rounded bg-gray-700">
     </label>
 
     <label class="block mb-3">Nama Barang
-      <input type="text" name="nama_barang" value="<?php echo $row['nama_barang']; ?>" required class="mt-1 w-full p-2 rounded bg-gray-700">
+      <input type="text" name="nama_barang" value="<?= $row['nama_barang'] ?>" required class="mt-1 w-full p-2 rounded bg-gray-700">
     </label>
 
-    <label class="block mb-3">Stok
-      <input type="number" name="stok" value="<?php echo $row['stok']; ?>" required class="mt-1 w-full p-2 rounded bg-gray-700">
+    <label class="block mb-3">Stock
+      <input type="number" name="stock" value="<?= $row['stock'] ?>" required class="mt-1 w-full p-2 rounded bg-gray-700">
     </label>
 
     <label class="block mb-3">Harga
-      <input type="number" name="harga" value="<?php echo $row['harga']; ?>" required class="mt-1 w-full p-2 rounded bg-gray-700">
+      <input type="number" name="harga" value="<?= $row['harga'] ?>" required class="mt-1 w-full p-2 rounded bg-gray-700">
     </label>
 
     <label class="block mb-5">Terjual
-      <input type="number" name="terjual" value="<?php echo $row['terjual']; ?>" required class="mt-1 w-full p-2 rounded bg-gray-700">
+      <input type="number" name="terjual" value="<?= $row['terjual'] ?>" required class="mt-1 w-full p-2 rounded bg-gray-700">
     </label>
 
     <div class="flex justify-between">
