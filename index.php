@@ -8,7 +8,7 @@ if (!isset($_SESSION['username'])) {
 
 $role = $_SESSION['role'];
 $sql = "SELECT * FROM barang ORDER BY id_barang DESC";
-$result = mysqli_query($conn, $sql);
+$conn = mysqli_query($conn, $sql);
 ?>
 <!DOCTYPE html>
 <html lang="id">
