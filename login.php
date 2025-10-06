@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'koneksi.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -9,7 +10,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     mysqli_stmt_bind_param($stmt, "s", $username);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_bind_result($stmt, $id, $u, $hash, $role);
+
     if (mysqli_stmt_fetch($stmt)) {
+        // ✅ Verifikasi password hash
         if (password_verify($password, $hash)) {
             $_SESSION['username'] = $u;
             $_SESSION['role'] = $role;
