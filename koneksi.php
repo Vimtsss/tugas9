@@ -4,9 +4,10 @@ ini_set('display_errors', 1);
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 $host = "localhost";
-$user = "root";
-$pass = "";
-$db   = "db_toko"    ;
+$user = "xirpl1-16";
+$pass = "0095372394";
+$db   = "db_xirpl1-16_1";
+
 
 $conn = mysqli_connect($host, $user, $pass, $db);
 
