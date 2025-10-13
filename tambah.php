@@ -9,18 +9,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stok        = $_POST['stok'] ?? 0;
     $terjual     = $_POST['terjual'] ?? 0;
 
-    // Hitung subtotal otomatis
-    $subtotal = ($harga * $terjual);
+    $subtotal = $harga * $terjual;
 
-    // Query simpan data ke database
-    $query = "INSERT INTO barang (nama_barang, harga, stok, terjual, subtotal)
-              VALUES ('$nama_barang', '$harga', '$stok', '$terjual', '$subtotal')";
+    $sql = "INSERT INTO barang (nama_barang, harga, stok, terjual, subtotal)
+            VALUES ('$nama_barang', '$harga', '$stok', '$terjual', '$subtotal')";
 
-    if (mysqli_query($koneksi, $query)) {
+    if (mysqli_query($result, $sql)) {
         header("Location: index.php");
         exit;
     } else {
-        echo "Error: " . mysqli_error($koneksi);
+        echo "Error: " . mysqli_error($result);
     }
 }
 ?>
