@@ -3,11 +3,12 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 require_once 'koneksi.php';
 
-// ambil data
+// ambil data dari tabel barang
 $sql = "SELECT * FROM barang ORDER BY id_barang DESC";
-$result = mysqli_query($result, $sql);
+$result = mysqli_query($koneksi, $sql);
+
 if ($result === false) {
-    die("Query error: " . mysqli_error($conn));
+    die("Query error: " . mysqli_error($koneksi));
 }
 ?>
 <!DOCTYPE html>

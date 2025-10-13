@@ -4,53 +4,54 @@ ini_set('display_errors', 1);
 require_once 'koneksi.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id_baru  = $_POST['id_barang'];
-    $nama     = $_POST['nama_barang'];
-    $stock     = $_POST['stok'];
-    $harga    = $_POST['harga'];
-    $terjual  = $_POST['terjual'];
+    $nama_barang = $_POST['nama_barang'];
+    $harga       = $_POST['harga'];
+    $stok        = $_POST['stok'];
 
-    // hitung stok baru & subtotal
-    $stok_akhir = $stok - $terjual;  // stok berkurang
-    $subtotal   = $terjual * $harga; // total pemasukan
+    if (!empty($nama_barang) && !empty($harga) && !empty($stok)) {
+        $query = "INSERT INTO barang (nama_barang, harga, stok, terjual, subtotal)
+                  VALUES ('$nama_barang', '$harga', '$stok', 0, 0)";
+        $result = mysqli_query($koneksi, $query);
 
-    $sql = "INSERT INTO barang (id_barang, nama_barang, stok, harga, terjual, subtotal)
-            VALUES ('$id_baru', '$nama', '$stock_akhir', '$harga', '$terjual', '$subtotal')";
-
-    if (mysqli_query($result, $sql)) {
-        header("Location: index.php");
-        exit;
+        if ($result) {
+            header("Location: index.php");
+            exit;
+        } else {
+            echo "Gagal menambahkan data: " . mysqli_error($koneksi);
+        }
     } else {
-        echo "Error: " . mysqli_error($conn);
+        echo "Semua field harus diisi!";
     }
 }
 ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Tambah Barang</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-900 text-white min-h-screen flex items-center justify-center">
-  <form method="POST" class="bg-gray-800 p-8 rounded-xl w-96 shadow">
-    <h1 class="text-2xl font-bold mb-6 text-indigo-400">Tambah Barang</h1>
-    <label class="block mb-3">Nama Barang
-      <input type="text" name="nama_barang" required class="mt-1 w-full p-2 rounded bg-gray-700">
-    </label>
-    <label class="block mb-3">Stok
-      <input type="number" name="stok" required class="mt-1 w-full p-2 rounded bg-gray-700">
-    </label>
-    <label class="block mb-3">Harga
-      <input type="number" name="harga" required class="mt-1 w-full p-2 rounded bg-gray-700">
-    </label>
-    <label class="block mb-5">Terjual
-      <input type="number" name="terjual" required class="mt-1 w-full p-2 rounded bg-gray-700">
-    </label>
-    <div class="flex justify-between">
-      <a href="index.php" class="text-gray-400 hover:text-white">Kembali</a>
-      <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded">Simpan</button>
-    </div>
-  </form>
+<body class="bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900 min-h-screen flex items-center justify-center text-white">
+  <div class="bg-gray-800 p-8 rounded-2xl shadow-2xl w-full max-w-md">
+    <h1 class="text-3xl font-bold mb-6 text-center text-indigo-300">Tambah Barang</h1>
+    <form method="POST" class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium mb-1">Nama Barang</label>
+        <input type="text" name="nama_barang" required class="w-full rounded-lg bg-gray-700 p-2 text-white focus:ring-2 focus:ring-indigo-500">
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">Harga</label>
+        <input type="number" name="harga" required class="w-full rounded-lg bg-gray-700 p-2 text-white focus:ring-2 focus:ring-indigo-500">
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1">Stok</label>
+        <input type="number" name="stok" required class="w-full rounded-lg bg-gray-700 p-2 text-white focus:ring-2 focus:ring-indigo-500">
+      </div>
+      <div class="flex justify-between items-center mt-6">
+        <a href="index.php" class="text-gray-300 hover:text-white">← Kembali</a>
+        <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2 rounded-lg transition">Simpan</button>
+      </div>
+    </form>
+  </div>
 </body>
 </html>

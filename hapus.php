@@ -1,18 +1,16 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 require_once 'koneksi.php';
 
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-    $sql = "DELETE FROM barang WHERE id_barang=$id";
-    if (mysqli_query($conn, $sql)) {
-        header("Location: index.php");
-        exit;
-    } else {
-        echo "Query Error: " . mysqli_error($conn);
-    }
+if (!isset($_GET['id'])) {
+    die("ID tidak ditemukan!");
+}
+
+$id = $_GET['id'];
+
+if (mysqli_query($koneksi, "DELETE FROM barang WHERE id_barang = $id")) {
+    header("Location: index.php");
+    exit;
 } else {
-    echo "ID tidak ditemukan.";
+    echo "Gagal menghapus data: " . mysqli_error($koneksi);
 }
 ?>
