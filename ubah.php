@@ -16,20 +16,20 @@ if (!$row) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id       = $_POST['id_barang'];
     $nama     = $_POST['nama_barang'];
-    $stock     = $_POST['stock'];
+    $stock     = $_POST['stok'];
     $harga    = $_POST['harga'];
     $terjual  = $_POST['terjual'];
 
   
-    $stock_akhir = $stock - $terjual;
+    $stok_akhir = $stok - $terjual;
     $subtotal   = $terjual * $harga;
 
     $sql = "UPDATE barang 
-            SET nama_barang='$nama', stok='$stock_akhir', harga='$harga', 
+            SET nama_barang='$nama', stok='$stok_akhir', harga='$harga', 
                 terjual='$terjual', subtotal='$subtotal'
             WHERE id_barang='$id'";
 
-    if (mysqli_query($conn, $sql)) {
+    if (mysqli_query($result, $sql)) {
         header("Location: index.php");
         exit;
     } else {

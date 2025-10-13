@@ -6,18 +6,18 @@ require_once 'koneksi.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id_baru  = $_POST['id_barang'];
     $nama     = $_POST['nama_barang'];
-    $stock     = $_POST['stock'];
+    $stock     = $_POST['stok'];
     $harga    = $_POST['harga'];
     $terjual  = $_POST['terjual'];
 
     // hitung stok baru & subtotal
-    $stock_akhir = $stock - $terjual;  // stok berkurang
+    $stok_akhir = $stok - $terjual;  // stok berkurang
     $subtotal   = $terjual * $harga; // total pemasukan
 
     $sql = "INSERT INTO barang (id_barang, nama_barang, stok, harga, terjual, subtotal)
             VALUES ('$id_baru', '$nama', '$stock_akhir', '$harga', '$terjual', '$subtotal')";
 
-    if (mysqli_query($conn, $sql)) {
+    if (mysqli_query($result, $sql)) {
         header("Location: index.php");
         exit;
     } else {

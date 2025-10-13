@@ -47,7 +47,7 @@ if ($result === false) {
               <tr class="hover:bg-gray-700 transition">
                 <td class="py-3 px-4 font-medium text-gray-200"><?= $row['id_barang']; ?></td>
                 <td class="py-3 px-4"><?= htmlspecialchars($row['nama_barang']); ?></td>
-                <td class="py-3 px-4"><?= (int)$row['stock']; ?></td>
+                <td class="py-3 px-4"><?= (int)$row['stok']; ?></td>
                 <td class="py-3 px-4">Rp <?= number_format((int)$row['harga'],0,',','.'); ?></td>
                 <td class="py-3 px-4"><?= (int)$row['terjual']; ?></td>
                 <td class="py-3 px-4">Rp <?= number_format((int)$row['subtotal'],0,',','.'); ?></td>
