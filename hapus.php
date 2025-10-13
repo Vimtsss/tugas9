@@ -9,7 +9,7 @@ if (!isset($_GET['id'])) {
 
 $id = $_GET['id'];
 
-if (mysqli_query($koneksi, "DELETE FROM barang WHERE id_barang = $id")) {
+if (mysqli_query($result, "DELETE FROM barang WHERE id_barang = $id")) {
     header("Location: index.php");
     exit;
 } else {
