@@ -5,7 +5,7 @@ require_once 'koneksi.php';
 
 // ambil data dari tabel barang
 $sql = "SELECT * FROM barang ORDER BY id_barang DESC";
-$result = mysqli_query($koneksi, $sql);
+$result = mysqli_query($result, $sql);
 
 if ($result === false) {
     die("Query error: " . mysqli_error($koneksi));
